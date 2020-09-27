@@ -20,8 +20,20 @@ public class MainActivity extends AppCompatActivity {
     int[][] winningPositions = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
 
     int activePlayer = 0;
+    Button playAgainButton;
+    TextView winnerTextView;
 
     boolean gameActive = true;
+
+    public Boolean search(int [] arr) {
+        for(int element : arr){
+            if(element==2) {
+                return true;
+            }
+        }
+        return false;
+
+    }
 
     public void dropIn(View view) {
 
@@ -29,9 +41,17 @@ public class MainActivity extends AppCompatActivity {
 
         int tappedCounter = Integer.parseInt(counter.getTag().toString());
 
+
         if (gameState[tappedCounter] == 2 && gameActive) {
 
             gameState[tappedCounter] = activePlayer;
+            if(search(gameState)==false){
+                gameActive=false;
+                playAgainButton.setVisibility(View.VISIBLE);
+                winnerTextView.setText("Draw");
+                winnerTextView.setVisibility(View.VISIBLE);
+            }
+
 
             counter.setTranslationY(-1500);
 
@@ -55,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
 
                 if (gameState[winningPosition[0]] == gameState[winningPosition[1]] && gameState[winningPosition[1]] == gameState[winningPosition[2]] && gameState[winningPosition[0]] != 2) {
 
-                    // Somone has won!
 
                     gameActive = false;
 
@@ -71,9 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
 
-                    Button playAgainButton = (Button) findViewById(R.id.playAgainButton);
 
-                    TextView winnerTextView = (TextView) findViewById(R.id.winnerTextView);
 
                     winnerTextView.setText(winner + " has won!");
 
@@ -87,11 +104,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     public void playAgain(View view) {
 
-        Button playAgainButton = (Button) findViewById(R.id.playAgainButton);
-
-        TextView winnerTextView = (TextView) findViewById(R.id.winnerTextView);
+//        Button playAgainButton = (Button) findViewById(R.id.playAgainButton);
+//
+//        TextView winnerTextView = (TextView) findViewById(R.id.winnerTextView);
 
         playAgainButton.setVisibility(View.INVISIBLE);
 
@@ -123,5 +141,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        playAgainButton = (Button) findViewById(R.id.playAgainButton);
+
+        winnerTextView = (TextView) findViewById(R.id.winnerTextView);
+
     }
 }
